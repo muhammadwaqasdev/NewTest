@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:getx_templete/services/local/auth_service.dart';
+import 'package:getx_templete/src/services/local/auth_service.dart';
 
 class HomeController extends GetxController with AuthViewModel {
   //TODO: Implement HomeController

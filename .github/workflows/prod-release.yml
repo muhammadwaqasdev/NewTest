@@ -1,0 +1,147 @@
+name: CD Prod-Lane
+
+# Repository Secrets needed to execute this workflow
+# ==================================================
+# GH_TOKEN : https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+# ==================================================
+# if you generate key store file
+# ==================================================
+# KEYSTORE_JKS_BASE64
+# KEY_PROPERTIES_BASE64
+# ==================================================
+# if you are using whatsapp notify : https://www.twilio.com/
+# ==================================================
+# ACCOUNT_SID
+# AUTH_TOKEN
+# TO_WHATSAPP_NUMBER
+# ==================================================
+# if you are using slack notify
+# ==================================================
+# SLACK_CHANNEL
+# SLACK_USERNAME
+# SLACK_WEBHOOK
+# ==================================================
+# if you are release android build to play store
+# ==================================================
+# PLAYSTORE_ACCOUNT_KEY
+# APP_PACKAGE_NAME
+
+
+on:
+  push:
+    branches:
+      - prod
+jobs:
+  build:
+    name: Build Artifacts and Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      
+      - name: Read pubspec.yaml Version
+        uses: KJ002/read-yaml@1.5
+        id: pubspec-data
+        with:
+          file: 'pubspec.yaml'
+          key-path: '["version"]'
+
+      - name: Generate unique Release Tag
+        run: echo RELEASE_TAG=Release-${{ steps.pubspec-data.outputs.data }}-$(date +%s) >> $GITHUB_ENV
+
+      - name: Set flavor string
+        run: echo APP_FLAVOR=prod >> $GITHUB_ENV
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "11.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.3.4"
+          channel: 'stable'
+          
+#      - name: Decode android/key.properties
+#        run: echo "${{ secrets.KEY_PROPERTIES_BASE64 }}" | base64 --decode > android/key.properties
+#
+#      - name: Decode android/neumodore_key.jks
+#        run: echo "${{ secrets.KEYSTORE_JKS_BASE64 }}" | base64 --decode > android/key.jks
+      
+      - name: Pub Get Packages
+        run: flutter pub get
+
+      - name: Build APPBUNDLE
+        run: flutter build appbundle --release --flavor ${{env.APP_FLAVOR}} -t lib/main_${{env.APP_FLAVOR}}.dart && flutter build apk --release --flavor ${{env.APP_FLAVOR}} -t lib/main_${{env.APP_FLAVOR}}.dart
+
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/bundle/${{env.APP_FLAVOR}}Release/*.aab,build/app/outputs/flutter-apk/app-${{env.APP_FLAVOR}}-release.apk"
+          token: ${{ secrets.GH_TOKEN }}
+          tag: "${{env.RELEASE_TAG}}"
+          body: "${{ github.event.head_commit.message }}"
+
+      - name: Save APPBUNDLE to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: APPBUNDLE
+          path: build/app/outputs/bundle/${{env.APP_FLAVOR}}Release/app-${{env.APP_FLAVOR}}-release.aab
+
+
+      - name: Save APK to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: APK
+          path: build/app/outputs/flutter-apk/app-${{env.APP_FLAVOR}}-release.apk
+
+
+# this code use for whatsapp notification
+
+#      - name: Notification WhatsApp
+#        id: whatsapp1-notify
+#        env:
+#          account_sid: ${{ secrets.ACCOUNT_SID }}
+#          auth_token: ${{ secrets.AUTH_TOKEN }}
+#          to_whatsapp_no: ${{ secrets.TO_WHATSAPP_NUMBER }}
+#          message: "Build job of ${{github.repository}} completed successfully! \n\nAPK : https://github.com/${{github.repository}}/releases/download/${{env.RELEASE_TAG}}/app-${{env.APP_FLAVOR}}-release.apk"
+#        uses: khaled-ibtikar/whatsapp-push-notify-action@master
+
+
+
+# this code use for slack notification
+
+#      - name: Slack Notification
+#          uses: rtCamp/action-slack-notify@v2
+#          env:
+#            SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+#            SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+#            SLACK_MESSAGE: "Build job of ${{github.repository}} completed successfully! Build URLS for ${{env.RELEASE_TAG}} \nAPK : https://github.com/${{github.repository}}/releases/download/${{env.RELEASE_TAG}}/app-${{env.APP_FLAVOR}}-release.apk"
+#            SLACK_TITLE: Prod Release Deployed
+#            SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
+#            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#            SLACK_ICON: https://seeklogo.com/images/G/github-actions-logo-031704BDC6-seeklogo.com.png
+
+
+
+# this code use for android deployment to play store
+
+#  release_internal:
+#    name: Release Artifacts to internal track
+#    needs: [build]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Get APPBUNDLE from Artifacts
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: APPBUNDLE
+#      - name: Release APPBUNDLE to Production track
+#        uses: r0adkll/upload-google-play@v1
+#        with:
+#          serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
+#          packageName: ${{ secrets.APP_PACKAGE_NAME }}
+#          releaseFiles: app-${{env.APP_FLAVOR}}-release.aab
+#          track: production
+#          whatsNewDirectory: distribution/whatsnew
+#          status: inProgress

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_templete/services/local/flavor_service.dart';
-import 'package:getx_templete/services/remote/api_client.dart';
-import 'package:getx_templete/services/remote/api_result.dart';
-import 'package:getx_templete/services/remote/interceptors/main_api_interceptor.dart';
+import 'package:getx_templete/src/services/local/flavor_service.dart';
+import 'package:getx_templete/src/services/remote/api_client.dart';
+import 'package:getx_templete/src/services/remote/api_result.dart';
+import 'package:getx_templete/src/services/remote/interceptors/main_api_interceptor.dart';
 
 mixin ApiViewModel {
   ApiService apiService = Get.find<ApiService>();

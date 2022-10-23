@@ -7,10 +7,6 @@ enum Env {
 
 class FlavorService {
 
-  FlavorService(){
-
-  }
-
   static Env? env;
 
   static init(PackageInfo info) {
