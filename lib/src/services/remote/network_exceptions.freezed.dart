@@ -117,6 +117,7 @@ mixin _$NetworkExceptions {
     required TResult Function() unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? requestCancelled,
@@ -160,6 +161,7 @@ mixin _$NetworkExceptions {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RequestCancelled value) requestCancelled,
@@ -181,6 +183,7 @@ mixin _$NetworkExceptions {
     required TResult Function(UnexpectedError value) unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(RequestCancelled value)? requestCancelled,
@@ -239,6 +242,7 @@ class _$NetworkExceptionsCopyWithImpl<$Res>
   _$NetworkExceptionsCopyWithImpl(this._value, this._then);
 
   final NetworkExceptions _value;
+
   // ignore: unused_field
   final $Res Function(NetworkExceptions) _then;
 }
@@ -831,6 +835,7 @@ abstract class BadRequest implements NetworkExceptions {
 abstract class $NotFoundCopyWith<$Res> {
   factory $NotFoundCopyWith(NotFound value, $Res Function(NotFound) then) =
       _$NotFoundCopyWithImpl<$Res>;
+
   $Res call({String reason});
 }
 
@@ -1043,6 +1048,7 @@ abstract class NotFound implements NetworkExceptions {
   const factory NotFound(String reason) = _$NotFound;
 
   String get reason;
+
   @JsonKey(ignore: true)
   $NotFoundCopyWith<NotFound> get copyWith =>
       throw _privateConstructorUsedError;
@@ -3195,6 +3201,7 @@ abstract class $DefaultErrorCopyWith<$Res> {
   factory $DefaultErrorCopyWith(
           DefaultError value, $Res Function(DefaultError) then) =
       _$DefaultErrorCopyWithImpl<$Res>;
+
   $Res call({String error});
 }
 
@@ -3409,6 +3416,7 @@ abstract class DefaultError implements NetworkExceptions {
   const factory DefaultError(String error) = _$DefaultError;
 
   String get error;
+
   @JsonKey(ignore: true)
   $DefaultErrorCopyWith<DefaultError> get copyWith =>
       throw _privateConstructorUsedError;

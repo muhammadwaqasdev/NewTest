@@ -1,5 +1,5 @@
+import 'package:Test/src/configs/styles/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:getx_templete/src/configs/styles/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextStyling {

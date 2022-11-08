@@ -1,8 +1,28 @@
+import 'package:Test/src/configs/routes/app_pages.dart';
 import 'package:get/get.dart';
-import 'package:getx_templete/src/configs/routes/app_pages.dart';
 
 class NavService {
-  static void splash({dynamic extra}) => Get.toNamed(Routes.SPLASH, arguments: extra);
-  static void home({dynamic extra}) => Get.toNamed(Routes.HOME, arguments: extra);
-  static void login({dynamic extra}) => Get.toNamed(Routes.LOGIN, arguments: extra);
+  static void input({dynamic arguments}) =>
+      Get.toNamed(Routes.INPUT, arguments: arguments);
+
+  static void detail({dynamic arguments}) =>
+      Get.toNamed(Routes.DETAIL, arguments: arguments);
+
+  static void home({dynamic arguments}) =>
+      Get.toNamed(Routes.HOME, arguments: arguments);
+
+  static void login({dynamic arguments}) =>
+      Get.toNamed(Routes.LOGIN, arguments: arguments);
+}
+
+class DetailExtra {
+  final String name;
+  final String schoolName;
+  final String phone;
+
+  DetailExtra({
+    required this.name,
+    required this.schoolName,
+    required this.phone,
+  });
 }

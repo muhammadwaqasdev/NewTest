@@ -1,27 +1,27 @@
+import 'package:Test/src/models/api_models/gallery_model.dart';
+import 'package:Test/src/services/local/auth_service.dart';
+import 'package:Test/src/services/remote/api_service.dart';
 import 'package:get/get.dart';
-import 'package:getx_templete/src/services/local/auth_service.dart';
 
-class HomeController extends GetxController with AuthViewModel {
-  //TODO: Implement HomeController
+class HomeController extends GetxController with ApiViewModel, AuthViewModel {
+  List<Gallery> galleryData = <Gallery>[].obs;
 
-  final count = 0.obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    await getGalleryData();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() {
-    count.value++;
-    authService.user.add("abd");
+  getGalleryData() async {
+    var response = await apiService.getGalleries();
+    response.when(success: (response) async {
+      if (response.success == true) {
+        galleryData = response.gallery ?? [];
+        authService.user?.imagePath = response.imagePath;
+        update();
+      }
+    }, failure: (error) {
+      return print(error);
+    });
   }
 }

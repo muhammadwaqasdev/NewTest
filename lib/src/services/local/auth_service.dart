@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:Test/src/models/api_models/user_model.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 mixin AuthViewModel {
   AuthService authService = Get.find<AuthService>();
@@ -8,9 +10,9 @@ mixin AuthViewModel {
 
 class AuthService extends GetxService {
   static late SharedPreferences prefs;
-  final _user = RxList<String>().obs;
+  final _user = Rx<UserModel?>(null).obs;
 
-  List<String> get user => _user.value.value;
+  UserModel? get user => _user.value.value;
 
   final String _prefKey = "USER_AUTH";
 
@@ -18,7 +20,7 @@ class AuthService extends GetxService {
     restoreUserFromLocal();
   }
 
-  set user(List<String> user) {
+  set user(UserModel? user) {
     _user.value.value = user;
     _storeLocally();
   }
@@ -28,22 +30,20 @@ class AuthService extends GetxService {
   }
 
   _storeLocally() async {
-    if (_user.value == null) return;
-    prefs.setStringList(_prefKey, user.toList());
+    if (_user.value.value == null) return;
+    prefs.setString(_prefKey, jsonEncode(_user.value.value?.toJson() ?? {}));
   }
-
 
   Future<void> restoreUserFromLocal() async {
     if (prefs.containsKey(_prefKey)) {
-      // user = UserDataModel.fromJson(
-      //     jsonDecode(prefs.getString(_prefKeyUser) ?? "{}"));
+      user = UserModel.fromJson(jsonDecode(prefs.getString(_prefKey) ?? "{}"));
     }
   }
 
   _clearUserFromLocal() async {
     if (prefs.containsKey(_prefKey)) {
       prefs.remove(_prefKey);
-      _user.value.clear();
+      _user.value.value = null;
     }
   }
 }

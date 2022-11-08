@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:Test/src/models/wrappers/response_wrapper.dart';
+import 'package:Test/src/services/local/flavor_service.dart';
 import 'package:dio/dio.dart';
-import 'package:getx_templete/src/models/wrappers/response_wrapper.dart';
-import 'package:getx_templete/src/services/local/flavor_service.dart';
 
 const _defaultConnectTimeout = Duration.millisecondsPerMinute;
 const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
@@ -36,7 +36,7 @@ class ApiClient {
         count: response?.data?['totalCount'] ?? 1);
   }
 
-  Future<ResponseWrapper<dynamic>> getReq(
+  Future<dynamic> getReq(
     String uri, {
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -51,7 +51,7 @@ class ApiClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return _response(response);
+      return response;
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
@@ -61,7 +61,7 @@ class ApiClient {
     }
   }
 
-  Future<ResponseWrapper<dynamic>> postReq(
+  Future<dynamic> postReq(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -80,7 +80,7 @@ class ApiClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return _response(response);
+      return response;
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {

@@ -41,6 +41,7 @@ mixin _$ApiResult<T> {
     required TResult Function(NetworkExceptions error) failure,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(T data)? success,
@@ -54,12 +55,14 @@ mixin _$ApiResult<T> {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Success<T> value) success,
     required TResult Function(Failure<T> value) failure,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Success<T> value)? success,
@@ -87,6 +90,7 @@ class _$ApiResultCopyWithImpl<T, $Res> implements $ApiResultCopyWith<T, $Res> {
   _$ApiResultCopyWithImpl(this._value, this._then);
 
   final ApiResult<T> _value;
+
   // ignore: unused_field
   final $Res Function(ApiResult<T>) _then;
 }
@@ -95,6 +99,7 @@ class _$ApiResultCopyWithImpl<T, $Res> implements $ApiResultCopyWith<T, $Res> {
 abstract class $SuccessCopyWith<T, $Res> {
   factory $SuccessCopyWith(Success<T> value, $Res Function(Success<T>) then) =
       _$SuccessCopyWithImpl<T, $Res>;
+
   $Res call({T data});
 }
 
@@ -217,6 +222,7 @@ abstract class Success<T> implements ApiResult<T> {
   const factory Success({required T data}) = _$Success<T>;
 
   T get data;
+
   @JsonKey(ignore: true)
   $SuccessCopyWith<T, Success<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -226,6 +232,7 @@ abstract class Success<T> implements ApiResult<T> {
 abstract class $FailureCopyWith<T, $Res> {
   factory $FailureCopyWith(Failure<T> value, $Res Function(Failure<T>) then) =
       _$FailureCopyWithImpl<T, $Res>;
+
   $Res call({NetworkExceptions error});
 
   $NetworkExceptionsCopyWith<$Res> get error;
@@ -356,6 +363,7 @@ abstract class Failure<T> implements ApiResult<T> {
   const factory Failure({required NetworkExceptions error}) = _$Failure<T>;
 
   NetworkExceptions get error;
+
   @JsonKey(ignore: true)
   $FailureCopyWith<T, Failure<T>> get copyWith =>
       throw _privateConstructorUsedError;

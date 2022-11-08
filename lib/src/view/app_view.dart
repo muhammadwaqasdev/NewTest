@@ -1,7 +1,7 @@
+import 'package:Test/src/configs/constants.dart';
+import 'package:Test/src/configs/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_templete/src/configs/routes/app_pages.dart';
-import 'package:getx_templete/src/configs/constants.dart';
 
 class AppView extends StatelessWidget {
   // This widget is the root of your application.
@@ -12,10 +12,8 @@ class AppView extends StatelessWidget {
       title: Constants.appTitle,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          fontFamily: ''
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(scaffoldBackgroundColor: Colors.white, fontFamily: ''),
       builder: (context, child) {
         return Stack(
           children: [child!],

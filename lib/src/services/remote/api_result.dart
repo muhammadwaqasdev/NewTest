@@ -1,5 +1,5 @@
+import 'package:Test/src/services/remote/network_exceptions.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:getx_templete/src/services/remote/network_exceptions.dart';
 
 part 'api_result.freezed.dart';
 

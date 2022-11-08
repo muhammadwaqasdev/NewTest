@@ -73,13 +73,13 @@ android {
     productFlavors {
         dev {
             dimension "flavors"
-            resValue "string", "app_name", "GetX Templete Dev"
+            resValue "string", "app_name", "Test"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
         prod {
             dimension "flavors"
-            resValue "string", "app_name", "GetX Templete"
+            resValue "string", "app_name", "Test"
         }
     }
 }

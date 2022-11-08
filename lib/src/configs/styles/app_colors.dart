@@ -13,6 +13,7 @@ class AppColors {
   static HexColor yellow = HexColor("#FFDB45");
   static HexColor purple = HexColor("#E3E4FD");
   static HexColor green = HexColor("#41BD6F");
+  static HexColor darkGrey = HexColor("#5A5A5A");
 
   static LinearGradient backgroundGradiant = LinearGradient(
     begin: Alignment.centerLeft,

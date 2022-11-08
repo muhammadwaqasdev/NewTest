@@ -6,7 +6,6 @@ enum Env {
 }
 
 class FlavorService {
-
   static Env? env;
 
   static init(PackageInfo info) {
@@ -19,8 +18,6 @@ class FlavorService {
   }
 
   static String get getBaseApi {
-    return "https://google.com/";
+    return "https://twentyfourhaitch.pluton.ltd/api/";
   }
-
-
 }
